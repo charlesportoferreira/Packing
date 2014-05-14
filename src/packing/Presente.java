@@ -33,7 +33,7 @@ public class Presente {
         this.dimX = dimX;
         this.dimY = dimY;
         this.dimZ = dimZ;
-        cubos = new ArrayList<>(dimX * dimY * dimZ);
+        //cubos = new ArrayList<>(dimX * dimY * dimZ);
     }
 
     public int getId() {

@@ -82,7 +82,7 @@ public class Treno {
         }
         String posicaoMenorArea = areas.get(menorAltura);
         // if (areas.containsKey(200)) {
-        System.out.println(posicaoMenorArea);
+       // System.out.println(posicaoMenorArea);
         // }
 
         return posicaoMenorArea + "," + menorAltura;
