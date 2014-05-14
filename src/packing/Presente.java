@@ -71,7 +71,14 @@ public class Presente {
     public void setVerticeInicial(int x, int y, int z) {
         this.x = x;
         this.y = y;
-        this.z = z;
+        if (z == 0) {
+            this.z++;
+        } else {
+            this.z = z + 1;
+        }
+        //}else{
+        // this.z = dimZ;
+        //}
         criaCubos();
     }
 
@@ -79,14 +86,14 @@ public class Presente {
         int auxZ = z > 1 ? dimZ - 1 + z : dimZ;
         int auxX = x > 1 ? dimX - 1 + x : dimX;
         int auxY = y > 1 ? dimY - 1 + y : dimY;
-        for (int i = x; i <= auxX; i++) {
-            for (int j = y; j <= auxY; j++) {
-                for (int k = z; k <= auxZ; k++) {
-                    addCoordenada(new int[]{i, j, k});
-                    t++;
-                }
-            }
-        }
+//        for (int i = x; i <= auxX; i++) {
+//            for (int j = y; j <= auxY; j++) {
+//                for (int k = z; k <= auxZ; k++) {
+//                    addCoordenada(new int[]{i, j, k});
+//                    t++;
+//                }
+//            }
+//        }
         xMax = auxX;
         yMax = auxY;
         zMax = auxZ;
@@ -99,13 +106,13 @@ public class Presente {
 
     public List<int[]> getVertices() {
         List<int[]> vertices = new ArrayList<>(24);
-        vertices.add(new int[]{xMax, yMax, zMax});
+        vertices.add(new int[]{xMax, yMax, z});
         vertices.add(new int[]{x, y, z});
         vertices.add(new int[]{xMax, y, z});
         vertices.add(new int[]{x, yMax, z});
-        vertices.add(new int[]{xMax, yMax, z});
-        vertices.add(new int[]{xMax, y, zMax});
+        vertices.add(new int[]{xMax, yMax, zMax});
         vertices.add(new int[]{x, y, zMax});
+        vertices.add(new int[]{xMax, y, zMax});
         vertices.add(new int[]{x, yMax, zMax});
         return vertices;
     }
@@ -115,5 +122,4 @@ public class Presente {
         return "Presente{" + "cubos=" + cubos.toString() + '}';
     }
 
-    
 }
