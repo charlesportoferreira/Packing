@@ -242,7 +242,7 @@ if __name__ == "__main__":
     
     start = time.clock()
     
-    path = 'charleshenriqueportoferreira/PackingSantasSleigh'
+    path = 'xxxx'
     presentsFilename = os.path.join(path, 'presents.csv')
     submissionFilename = os.path.join(path, 'SubmissionFile.csv')
 

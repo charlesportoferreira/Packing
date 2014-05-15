@@ -18,9 +18,9 @@ public class Presente {
     private final int id;
     private int x;
     private int y;
-    private final int dimX;
-    private final int dimY;
-    private final int dimZ;
+    private final int comprimento;
+    private final int largura;
+    private final int altura;
     private int z;
     int xMax;
     int yMax;
@@ -28,11 +28,11 @@ public class Presente {
     List<int[]> cubos;
     int t;
 
-    public Presente(int id, int dimX, int dimY, int dimZ) {
+    public Presente(int id, int comprimento, int largura, int altura) {
         this.id = id;
-        this.dimX = dimX;
-        this.dimY = dimY;
-        this.dimZ = dimZ;
+        this.comprimento = comprimento;
+        this.largura = largura;
+        this.altura = altura;
         //cubos = new ArrayList<>(dimX * dimY * dimZ);
     }
 
@@ -41,11 +41,11 @@ public class Presente {
     }
 
     public int getX() {
-        return dimX;
+        return comprimento;
     }
 
     public int getY() {
-        return dimY;
+        return largura;
     }
 
     public void setZ(int z) {
@@ -53,7 +53,7 @@ public class Presente {
     }
 
     public int getZ() {
-        return dimZ;
+        return altura;
     }
 
     public int getAreaXY() {
@@ -76,16 +76,16 @@ public class Presente {
         } else {
             this.z = z + 1;
         }
-        //}else{
-        // this.z = dimZ;
-        //}
-        criaCubos();
+        xMax = x + comprimento - 1;
+        yMax = y + largura - 1;
+        zMax = this.z + altura - 1 ;
+
     }
 
     private void criaCubos() {
-        int auxZ = z > 1 ? dimZ - 1 + z : dimZ;
-        int auxX = x > 1 ? dimX - 1 + x : dimX;
-        int auxY = y > 1 ? dimY - 1 + y : dimY;
+        int auxZ = z > 1 ? altura - 1 + z : altura;
+        int auxX = x > 1 ? comprimento - 1 + x : comprimento;
+        int auxY = y > 1 ? largura - 1 + y : largura;
 //        for (int i = x; i <= auxX; i++) {
 //            for (int j = y; j <= auxY; j++) {
 //                for (int k = z; k <= auxZ; k++) {
@@ -119,7 +119,21 @@ public class Presente {
 
     @Override
     public String toString() {
-        return "Presente{" + "cubos=" + cubos.toString() + '}';
+        StringBuilder ver = new StringBuilder();
+        List<int[]> vertices = this.getVertices();
+            ver.append(this.id);
+            ver.append(",");
+        for (int[] vertice : vertices) {
+            ver.append(vertice[0]);
+            ver.append(",");
+            ver.append(vertice[1]);
+            ver.append(",");
+            ver.append(vertice[2]);
+            ver.append(",");
+        }
+        ver.deleteCharAt(ver.length()-1);
+        ver.append("\n");
+        return ver.toString();
     }
 
 }

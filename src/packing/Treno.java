@@ -5,10 +5,15 @@
  */
 package packing;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.TreeSet;
 
 /**
  *
@@ -22,10 +27,15 @@ public class Treno {
     HashMap<Integer, String> areas;
     Set<Integer> alturas;
 
+    ArrayList<Integer> c;
+
     public Treno(int tamanho) {
         this.tabela = new int[tamanho + 1][tamanho + 1];
         areas = new HashMap<>();
         alturas = new HashSet<>();
+
+        c = new ArrayList<>();
+        //alturas = new TreeSet<>();
         alturas.add(0);
     }
 
@@ -38,61 +48,85 @@ public class Treno {
     }
 
     public void inserePresente(Presente p) {
-        String pos = getMenorAreaLivre(p.getX(), p.getY());
-        int x = Integer.parseInt(pos.split(",")[0]);
-        int y = Integer.parseInt(pos.split(",")[1]);
-        int z = Integer.parseInt(pos.split(",")[2]);
-        p.setVerticeInicial(x, y, z);
-        
 
-        int limX = x + p.getX() - 1;
-        int limY = y + p.getY() - 1;
-        for (int i = y; i <= limY; i++) {
-            for (int j = x; j <= limX; j++) {
-                tabela[i][j] = p.getZ();
+        String pos = getMenorAreaLivre(p.getX(), p.getY());
+        int lar = Integer.parseInt(pos.split(",")[0]);
+        int comp = Integer.parseInt(pos.split(",")[1]);
+        int alt = Integer.parseInt(pos.split(",")[2]);
+        p.setVerticeInicial(comp, lar, alt);
+        if (p.getId() == 2) {
+           // p.setVerticeInicial(4, 10, 0);
+        }
+        int limX = comp + p.getX() - 1;
+        int limY = lar + p.getY() - 1;
+        for (int i = lar; i <= limY; i++) {
+            for (int j = comp; j <= limX; j++) {
+                try {
+                    tabela[i][j] = p.getZ();
+                } catch (Exception e) {
+                    System.out.println(i + " : " + j);
+                    System.out.println(p.getY() + " " + p.getX() + " " + p.getZ());
+                    System.out.println(limY + " " + limX);
+                    //System.out.println(e.);
+                    System.exit(0);
+                }
+
             }
         }
         atualizaListaAlturas();
     }
 
     public String getMenorAreaLivre(int x, int y) {
-        areas.clear();
+        //areas.clear();
         int altura;
         int menorAltura = 0;
         for (int alt : alturas) {
             altura = alt;
             for (int linha = 1; linha < tabela.length; linha++) {
-                for (int coluna = 1; coluna < tabela.length; coluna++) {
+                for (int coluna = 1; coluna < tabela.length; coluna = coluna + coluna + 1) {
                     //altura = tabela[coluna][linha];
-                    if (possuiEspacoLivre(coluna, linha, y, x, altura)) {
-                        if (!areas.containsKey(altura)) {
-                            areas.put(altura, linha + "," + coluna);
-                            menorAltura = altura;
-                        }
+                    if (possuiEspacoLivre(linha, coluna, y, x, altura)) {
+                        return linha + "," + coluna + "," + altura;
+//                        if (!areas.containsKey(altura)) {
+//                            areas.put(altura, linha + "," + coluna);
+//                            menorAltura = altura;
+//                        }
                     }
                 }
             }
         }
-
+        throw new RuntimeException("Nao acho lugar");
         // inicializa a menor alturas com a ultima alturas salva
-        for (Entry<Integer, String> entry : areas.entrySet()) {
-            if (entry.getKey() < menorAltura) {
-                menorAltura = entry.getKey();
-            }
-        }
-        String posicaoMenorArea = areas.get(menorAltura);
-        // if (areas.containsKey(200)) {
-       // System.out.println(posicaoMenorArea);
-        // }
-
-        return posicaoMenorArea + "," + menorAltura;
+//        for (Entry<Integer, String> entry : areas.entrySet()) {
+//            if (entry.getKey() < menorAltura) {
+//                menorAltura = entry.getKey();
+//            }
+//        }
+//        String posicaoMenorArea = areas.get(menorAltura);
+//        // if (areas.containsKey(200)) {
+//        // System.out.println(posicaoMenorArea);
+//        // }
+//
+//        return posicaoMenorArea + "," + menorAltura;
     }
 
     private boolean possuiEspacoLivre(int linhaI, int colunaI, int linhaF, int colunaF, int altura) {
         if (linhaI + linhaF - 1 < tabela.length && colunaI + colunaF - 1 < tabela.length) {
-            return tabela[linhaI + linhaF - 1][colunaI] <= altura
-                    && tabela[linhaI + linhaF - 1][colunaI + colunaF - 1] <= altura
-                    && tabela[linhaI][colunaI + colunaF - 1] <= altura;
+            boolean possui1;
+            boolean possui2;
+            boolean possui3;
+            for (int i = linhaI; i < linhaF-1; i++) {
+                for (int j = colunaI; j < colunaF-1; j++) {
+                    if (tabela[linhaI][colunaI] > altura) {
+                        return false;
+                    }
+                }
+            }
+            possui1 = tabela[linhaI][colunaI + colunaF - 1] <= altura;
+            possui2 = tabela[linhaI + linhaF - 1][colunaI + colunaF - 1] <= altura;
+            possui3 = tabela[linhaI + linhaF - 1][colunaI] <= altura;
+
+            return possui1 && possui2 && possui3;
         }
         return false;
     }
@@ -108,10 +142,15 @@ public class Treno {
 
     public void atualizaListaAlturas() {
         alturas.clear();
-        for (int i = 0; i < tabela.length; i++) {
-            for (int j = 0; j < tabela.length; j++) {
-                alturas.add(tabela[i][j]);
+        c.clear();
+        for (int i = 1; i < tabela.length; i++) {
+            for (int j = 1; j < tabela.length; j++) {
+
+                c.add(tabela[i][j]);
+
             }
         }
+        Collections.sort(c);
+        alturas.addAll(c);
     }
 }

@@ -6,40 +6,47 @@
 package packing;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author charleshenriqueportoferreira
  */
 public class Packing {
-    
+
     public static List<Presente> presentes = new ArrayList<>(1000);
 
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         lerArquivo();
         Treno t = new Treno(1000);
         System.out.println("Lido todos os presentes");
         Instant inicio = Instant.now();
-        for (int i = 0; i < 5; i++) {
-            
+        for (int i = 0; i < 10; i++) {
+
             t.inserePresente(presentes.get(i));
         }
         Instant fim = Instant.now();
         Duration duracao = Duration.between(inicio, fim);
         long duracaoEmMilissegundos = duracao.toMillis();
         System.out.println(duracaoEmMilissegundos);
+        escreverArquivo(t);
+
 //        Presente p1 = new Presente(1, 2, 4, 2);
 //        Presente p2 = new Presente(2, 2, 2, 3);
 //        Presente p3 = new Presente(3, 4, 4, 4);
@@ -48,16 +55,10 @@ public class Packing {
 //        Presente p6 = new Presente(6, 2, 2, 7);
 //        Presente p7 = new Presente(7, 3, 3, 8);
 //
-//        //p1.setVerticeInicial(1, 1, 1);
-////       
-////        List<int[]> vertices = p1.getVertices();
-////        System.out.println("Vertices");
-////        vertices.stream().forEach((v) -> {
-////            System.out.println(Arrays.toString(v));
-////        });
+//
 //        Treno t = new Treno(4);
 //        t.imprimirTabela();
-//        //t.getMenorAreaLivre(2,2);
+//     
 //        t.inserePresente(p1);
 //        System.out.println(p1.getX() + ":" + p1.getY() + ":" + p1.getZ());
 //        t.imprimirTabela();
@@ -87,33 +88,65 @@ public class Packing {
 //        t.imprimirTabela();
 //        imprimeVertices(p7.getVertices());
     }
-    
+
     public static void imprimeVertices(List<int[]> vertices) {
         for (int[] vertice : vertices) {
             System.out.println(Arrays.toString(vertice));
         }
     }
-    
+
     public static void lerArquivo() {
         try {
-            BufferedReader in = new BufferedReader(new FileReader("presents.csv"));
-            String str;
-            while (in.ready()) {
-                str = in.readLine();
-                if (!str.contains("PresentId")) {
-                    int id = Integer.parseInt(str.split(",")[0]);
-                    int x = Integer.parseInt(str.split(",")[1]);
-                    int y = Integer.parseInt(str.split(",")[2]);
-                    int z = Integer.parseInt(str.split(",")[3]);
-                    presentes.add(new Presente(id, x, y, z));
+            try (BufferedReader in = new BufferedReader(new FileReader("presents.csv"))) {
+                String str;
+                int i = 0;
+                while (in.ready()) {
+                    if (i > 9) {
+                        break;
+                    }
+                    str = in.readLine();
+                    if (!str.contains("PresentId")) {
+                        int id = Integer.parseInt(str.split(",")[0]);
+                        int comprimento = Integer.parseInt(str.split(",")[1]);
+                        int largura = Integer.parseInt(str.split(",")[2]);
+                        int altura = Integer.parseInt(str.split(",")[3]);
+                        presentes.add(new Presente(id, comprimento, largura, altura));
+                        i++;
+                    }
+                    //process(str);
+                    // System.out.println(str);
                 }
-                //process(str);
-               // System.out.println(str);
             }
-            in.close();
         } catch (IOException e) {
         }
-        
     }
-    
+
+    public static void escreverArquivo(Treno t) {
+        Collections.reverse(presentes);
+        StringBuilder texto = new StringBuilder();
+        texto.append("PresentId,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8\n");
+        for (int i = 0; i < 10; i++) {
+            texto.append(presentes.get(i));
+        }
+        System.out.println(texto);
+        FileWriter fw = null;
+        try {
+            fw = new FileWriter("resposta.csv");
+            try (BufferedWriter bw = new BufferedWriter(fw)) {
+
+                bw.write(texto.toString());
+                bw.newLine();
+            }
+            fw.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Packing.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                fw.close();
+            } catch (IOException ex) {
+                Logger.getLogger(Packing.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
 }
