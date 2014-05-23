@@ -100,8 +100,9 @@ public class Packing {
             try (BufferedReader in = new BufferedReader(new FileReader("presents.csv"))) {
                 String str;
                 int i = 0;
+                int somaAltura = 0;
                 while (in.ready()) {
-                    if (i > 9) {
+                    if (i > 1000) {
                         break;
                     }
                     str = in.readLine();
@@ -110,12 +111,16 @@ public class Packing {
                         int comprimento = Integer.parseInt(str.split(",")[1]);
                         int largura = Integer.parseInt(str.split(",")[2]);
                         int altura = Integer.parseInt(str.split(",")[3]);
+                        somaAltura += altura;
                         presentes.add(new Presente(id, comprimento, largura, altura));
                         i++;
                     }
+                   
                     //process(str);
                     // System.out.println(str);
                 }
+                 System.out.println(somaAltura);
+                    System.exit(0);
             }
         } catch (IOException e) {
         }
