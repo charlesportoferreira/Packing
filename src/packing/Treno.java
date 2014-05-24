@@ -35,8 +35,9 @@ public class Treno {
         alturas = new HashSet<>();
 
         c = new ArrayList<>();
-        //alturas = new TreeSet<>();
-        alturas.add(0);
+        alturas = new TreeSet<>();
+        alturas.add(1);
+        inicializaTreino();
     }
 
     public int getFitness() {
@@ -49,20 +50,20 @@ public class Treno {
 
     public void inserePresente(Presente p) {
 
-        String pos = getMenorAreaLivre(p.getX(), p.getY());
+        String pos = getMenorAreaLivre(p.getX(), p.getY(),p);
         int lar = Integer.parseInt(pos.split(",")[0]);
         int comp = Integer.parseInt(pos.split(",")[1]);
         int alt = Integer.parseInt(pos.split(",")[2]);
         p.setVerticeInicial(comp, lar, alt);
         if (p.getId() == 2) {
-           // p.setVerticeInicial(4, 10, 0);
+            // p.setVerticeInicial(4, 10, 0);
         }
         int limX = comp + p.getX() - 1;
         int limY = lar + p.getY() - 1;
         for (int i = lar; i <= limY; i++) {
             for (int j = comp; j <= limX; j++) {
                 try {
-                    tabela[i][j] = p.getZ();
+                    tabela[i][j] = p.getZMax();
                 } catch (Exception e) {
                     System.out.println(i + " : " + j);
                     System.out.println(p.getY() + " " + p.getX() + " " + p.getZ());
@@ -76,16 +77,17 @@ public class Treno {
         atualizaListaAlturas();
     }
 
-    public String getMenorAreaLivre(int x, int y) {
+    public String getMenorAreaLivre(int x, int y, Presente p) {
         //areas.clear();
+        
         int altura;
         int menorAltura = 0;
         for (int alt : alturas) {
             altura = alt;
             for (int linha = 1; linha < tabela.length; linha++) {
-                for (int coluna = 1; coluna < tabela.length; coluna = coluna + coluna + 1) {
+                for (int coluna = 1; coluna < tabela.length; coluna++) {
                     //altura = tabela[coluna][linha];
-                    if (possuiEspacoLivre(linha, coluna, y, x, altura)) {
+                    if (possuiEspacoLivre(linha, coluna,  y,  x, altura,p)) {
                         return linha + "," + coluna + "," + altura;
 //                        if (!areas.containsKey(altura)) {
 //                            areas.put(altura, linha + "," + coluna);
@@ -110,14 +112,17 @@ public class Treno {
 //        return posicaoMenorArea + "," + menorAltura;
     }
 
-    private boolean possuiEspacoLivre(int linhaI, int colunaI, int linhaF, int colunaF, int altura) {
+    private boolean possuiEspacoLivre(int linhaI, int colunaI, int linhaF, int colunaF, int altura, Presente p) {
         if (linhaI + linhaF - 1 < tabela.length && colunaI + colunaF - 1 < tabela.length) {
             boolean possui1;
             boolean possui2;
             boolean possui3;
-            for (int i = linhaI; i < linhaF-1; i++) {
-                for (int j = colunaI; j < colunaF-1; j++) {
-                    if (tabela[linhaI][colunaI] > altura) {
+            for (int i = linhaI; i < linhaI + linhaF - 1; i++) {
+                for (int j = colunaI; j < colunaI + colunaF - 1; j++) {
+                    if(j == 376 && i == 732 && p.getId() == 214 && altura == 186){
+                        int a = 0;
+                    }
+                    if (tabela[i][j] > altura) {
                         return false;
                     }
                 }
@@ -134,7 +139,7 @@ public class Treno {
     public void imprimirTabela() {
         for (int i = 1; i < tabela.length; i++) {
             for (int j = 1; j < tabela.length; j++) {
-                System.out.print(tabela[i][j]);
+                System.out.print(tabela[i][j] + "\t");
             }
             System.out.println("");
         }
@@ -142,15 +147,23 @@ public class Treno {
 
     public void atualizaListaAlturas() {
         alturas.clear();
-        c.clear();
+        //c.clear();
         for (int i = 1; i < tabela.length; i++) {
             for (int j = 1; j < tabela.length; j++) {
 
-                c.add(tabela[i][j]);
+                alturas.add(tabela[i][j]);
 
             }
         }
-        Collections.sort(c);
-        alturas.addAll(c);
+        //Collections.sort(c);
+        //alturas.addAll(c);
+    }
+
+    private void inicializaTreino() {
+        for (int i = 0; i < tabela.length; i++) {
+            for (int j = 0; j < tabela.length; j++) {
+                tabela[i][j] = 1;
+            }
+        }
     }
 }

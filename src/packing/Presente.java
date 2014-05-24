@@ -53,9 +53,13 @@ public class Presente {
     }
 
     public int getZ() {
-        return altura;
+        return altura ;
     }
-
+    
+    public int getZMax(){
+        return zMax;
+    }
+    
     public int getAreaXY() {
         return x * y;
     }
@@ -71,8 +75,8 @@ public class Presente {
     public void setVerticeInicial(int x, int y, int z) {
         this.x = x;
         this.y = y;
-        if (z == 0) {
-            this.z++;
+        if (z == 1) {
+            this.z = z;
         } else {
             this.z = z + 1;
         }
@@ -106,8 +110,8 @@ public class Presente {
 
     public List<int[]> getVertices() {
         List<int[]> vertices = new ArrayList<>(24);
-        vertices.add(new int[]{xMax, yMax, z});
         vertices.add(new int[]{x, y, z});
+        vertices.add(new int[]{xMax, yMax, z});
         vertices.add(new int[]{xMax, y, z});
         vertices.add(new int[]{x, yMax, z});
         vertices.add(new int[]{xMax, yMax, zMax});

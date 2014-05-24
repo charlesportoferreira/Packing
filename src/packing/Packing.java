@@ -37,8 +37,10 @@ public class Packing {
         Treno t = new Treno(1000);
         System.out.println("Lido todos os presentes");
         Instant inicio = Instant.now();
-        for (int i = 0; i < 10; i++) {
-
+        for (int i = 0; i < presentes.size(); i++) {
+            if(i == 11){
+                int a = 0;
+            }
             t.inserePresente(presentes.get(i));
         }
         Instant fim = Instant.now();
@@ -47,45 +49,56 @@ public class Packing {
         System.out.println(duracaoEmMilissegundos);
         escreverArquivo(t);
 
-//        Presente p1 = new Presente(1, 2, 4, 2);
-//        Presente p2 = new Presente(2, 2, 2, 3);
-//        Presente p3 = new Presente(3, 4, 4, 4);
-//        Presente p4 = new Presente(4, 4, 2, 5);
-//        Presente p5 = new Presente(5, 2, 2, 6);
-//        Presente p6 = new Presente(6, 2, 2, 7);
-//        Presente p7 = new Presente(7, 3, 3, 8);
-//
-//
-//        Treno t = new Treno(4);
-//        t.imprimirTabela();
-//     
-//        t.inserePresente(p1);
-//        System.out.println(p1.getX() + ":" + p1.getY() + ":" + p1.getZ());
-//        t.imprimirTabela();
-//        imprimeVertices(p1.getVertices());
-//        t.inserePresente(p2);
-//        System.out.println(p2.getX() + ":" + p2.getY() + ":" + p2.getZ());
-//        t.imprimirTabela();
-//        imprimeVertices(p2.getVertices());
-//        t.inserePresente(p3);
-//        System.out.println(p3.getX() + ":" + p3.getY() + ":" + p3.getZ());
-//        t.imprimirTabela();
-//        imprimeVertices(p3.getVertices());
-//        t.inserePresente(p4);
-//        System.out.println(p4.getX() + ":" + p4.getY() + ":" + p4.getZ());
-//        t.imprimirTabela();
-//        imprimeVertices(p4.getVertices());
-//        t.inserePresente(p5);
-//        System.out.println(p5.getX() + ":" + p5.getY() + ":" + p5.getZ());
-//        t.imprimirTabela();
-//        imprimeVertices(p5.getVertices());
-//        t.inserePresente(p6);
-//        System.out.println(p6.getX() + ":" + p6.getY() + ":" + p6.getZ());
-//        t.imprimirTabela();
-//        imprimeVertices(p6.getVertices());
-//        t.inserePresente(p7);
-//        System.out.println(p7.getX() + ":" + p7.getY() + ":" + p7.getZ());
-//        t.imprimirTabela();
+         System.exit(0);
+        
+        Presente p1 = new Presente(1, 2, 4, 2);
+        Presente p2 = new Presente(2, 2, 2, 3);
+        Presente p3 = new Presente(3, 4, 4, 4);
+        Presente p4 = new Presente(4, 4, 2, 5);
+        Presente p5 = new Presente(5, 2, 2, 6);
+        Presente p6 = new Presente(6, 2, 2, 7);
+        Presente p7 = new Presente(7, 3, 3, 8);
+        presentes.add(p1);
+        presentes.add(p2);
+        presentes.add(p3);
+        presentes.add(p4);
+        presentes.add(p5);
+        presentes.add(p6);
+        presentes.add(p7);
+        
+       
+
+        Treno t2 = new Treno(4);
+        t2.imprimirTabela();
+     
+        t2.inserePresente(p1);
+        System.out.println(p1.getX() + ":" + p1.getY() + ":" + p1.getZ());
+        t2.imprimirTabela();
+       // imprimeVertices(p1.getVertices());
+        t2.inserePresente(p2);
+        System.out.println(p2.getX() + ":" + p2.getY() + ":" + p2.getZ());
+        t2.imprimirTabela();
+       // imprimeVertices(p2.getVertices());
+        t2.inserePresente(p3);
+        System.out.println(p3.getX() + ":" + p3.getY() + ":" + p3.getZ());
+        t2.imprimirTabela();
+        //imprimeVertices(p3.getVertices());
+        t2.inserePresente(p4);
+        System.out.println(p4.getX() + ":" + p4.getY() + ":" + p4.getZ());
+        t2.imprimirTabela();
+        //imprimeVertices(p4.getVertices());
+        t2.inserePresente(p5);
+        System.out.println(p5.getX() + ":" + p5.getY() + ":" + p5.getZ());
+        t2.imprimirTabela();
+        //imprimeVertices(p5.getVertices());
+        t2.inserePresente(p6);
+        System.out.println(p6.getX() + ":" + p6.getY() + ":" + p6.getZ());
+        t2.imprimirTabela();
+        //imprimeVertices(p6.getVertices());
+        t2.inserePresente(p7);
+        System.out.println(p7.getX() + ":" + p7.getY() + ":" + p7.getZ());
+        t2.imprimirTabela();
+        escreverArquivo(t2);
 //        imprimeVertices(p7.getVertices());
     }
 
@@ -102,7 +115,7 @@ public class Packing {
                 int i = 0;
                 int somaAltura = 0;
                 while (in.ready()) {
-                    if (i > 1000) {
+                    if (i > 213) {
                         break;
                     }
                     str = in.readLine();
@@ -119,21 +132,21 @@ public class Packing {
                     //process(str);
                     // System.out.println(str);
                 }
-                 System.out.println(somaAltura);
-                    System.exit(0);
+                 //System.out.println(somaAltura);
+                    //System.exit(0);
             }
         } catch (IOException e) {
         }
     }
 
     public static void escreverArquivo(Treno t) {
-        Collections.reverse(presentes);
+       // Collections.reverse(presentes);
         StringBuilder texto = new StringBuilder();
         texto.append("PresentId,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8\n");
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < presentes.size(); i++) {
             texto.append(presentes.get(i));
         }
-        System.out.println(texto);
+        //System.out.println(texto);
         FileWriter fw = null;
         try {
             fw = new FileWriter("resposta.csv");

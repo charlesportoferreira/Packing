@@ -242,9 +242,9 @@ if __name__ == "__main__":
     
     start = time.clock()
     
-    path = 'xxxx'
-    presentsFilename = os.path.join(path, 'presents.csv')
-    submissionFilename = os.path.join(path, 'SubmissionFile.csv')
+    path = '/Users/charleshenriqueportoferreira/NetBeansProjects/Packing'
+    presentsFilename = os.path.join(path, 'pres2.csv')
+    submissionFilename = os.path.join(path, 'resposta.csv')
 
     # read file contents into solution dictionary and submission dictionary
     solution = readPresentsFile(presentsFilename)
