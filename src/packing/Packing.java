@@ -5,6 +5,7 @@
  */
 package packing;
 
+import algoritmogenetico.AlgoritmoGenetico;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileReader;
@@ -42,6 +43,11 @@ public class Packing {
         lerArquivo();
         Treno t = new Treno(1000);
         System.out.println("Lido todos os presentes");
+        
+        AlgoritmoGenetico ag = new AlgoritmoGenetico(presentes, 10);
+        ag.inicializaCromosssomo(presentes);
+        ag.executaCrossover();
+        System.exit(0);
         Instant inicio = Instant.now();
         for (int i = 0; i < presentes.size(); i++) {
 
@@ -151,7 +157,7 @@ public class Packing {
                 int i = 0;
                 int somaAltura = 0;
                 while (in.ready()) {
-                    if (i > 999) {
+                    if (i > 9) {
                         break;
                     }
                     str = in.readLine();
