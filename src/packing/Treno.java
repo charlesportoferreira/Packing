@@ -24,20 +24,26 @@ public class Treno {
     int[][] tabela;
 
     int fitness;
-    HashMap<Integer, String> areas;
-    Set<Integer> alturas;
-
-    ArrayList<Integer> c;
+    //HashMap<Integer,> areas;
+    public Set<Integer> alturas;
+   // public Set<Integer> todasAlturas;
+   // int[] lAlturas;
+   // ArrayList<Integer> c;
 
     public Treno(int tamanho) {
-        this.tabela = new int[tamanho + 1][tamanho + 1];
-        areas = new HashMap<>();
-        alturas = new HashSet<>();
 
-        c = new ArrayList<>();
+        this.tabela = new int[tamanho + 1][tamanho + 1];
+       // areas = new HashMap<>();
+      //  todasAlturas = new HashSet<>();
+
+       // c = new ArrayList<>(200);
         alturas = new TreeSet<>();
         alturas.add(1);
-        inicializaTreino();
+        //c.add(1);
+        inicializaTreno();
+  //      lAlturas = new int[61168];
+//        lAlturas[0] = 1;
+
     }
 
     public int getFitness() {
@@ -50,7 +56,7 @@ public class Treno {
 
     public void inserePresente(Presente p) {
 
-        String pos = getMenorAreaLivre(p.getX(), p.getY(),p);
+        String pos = getMenorAreaLivre(p.getX(), p.getY(), p);
         int lar = Integer.parseInt(pos.split(",")[0]);
         int comp = Integer.parseInt(pos.split(",")[1]);
         int alt = Integer.parseInt(pos.split(",")[2]);
@@ -79,51 +85,52 @@ public class Treno {
 
     public String getMenorAreaLivre(int x, int y, Presente p) {
         //areas.clear();
-        
+        boolean possuiEspaco;
+
         int altura;
-        int menorAltura = 0;
+        int ultimaAltura = 0;
         for (int alt : alturas) {
+//        for (int alt : c) {
+            // if (alt == 0) {
+            //  continue;
+            //}
+            ultimaAltura = alt;
             altura = alt;
             for (int linha = 1; linha < tabela.length; linha++) {
                 for (int coluna = 1; coluna < tabela.length; coluna++) {
-                    //altura = tabela[coluna][linha];
-                    if (possuiEspacoLivre(linha, coluna,  y,  x, altura,p)) {
+                    int proximoEstado = possuiEspacoLivre(linha, coluna, y, x, altura, p);
+                    possuiEspaco = (proximoEstado == 0);
+                    if (possuiEspaco) {
                         return linha + "," + coluna + "," + altura;
-//                        if (!areas.containsKey(altura)) {
-//                            areas.put(altura, linha + "," + coluna);
-//                            menorAltura = altura;
-//                        }
+                    } else {
+                        if (proximoEstado > 0) {
+                            coluna = proximoEstado;
+                        } else {
+                            //System.out.println("Opa");
+                            coluna = 1000;
+                            linha = 1000;
+                        }
                     }
                 }
             }
         }
         throw new RuntimeException("Nao acho lugar");
-        // inicializa a menor alturas com a ultima alturas salva
-//        for (Entry<Integer, String> entry : areas.entrySet()) {
-//            if (entry.getKey() < menorAltura) {
-//                menorAltura = entry.getKey();
-//            }
-//        }
-//        String posicaoMenorArea = areas.get(menorAltura);
-//        // if (areas.containsKey(200)) {
-//        // System.out.println(posicaoMenorArea);
-//        // }
-//
-//        return posicaoMenorArea + "," + menorAltura;
     }
 
-    private boolean possuiEspacoLivre(int linhaI, int colunaI, int linhaF, int colunaF, int altura, Presente p) {
+    private int possuiEspacoLivre(int linhaI, int colunaI, int linhaF, int colunaF, int altura, Presente p) {
         if (linhaI + linhaF - 1 < tabela.length && colunaI + colunaF - 1 < tabela.length) {
             boolean possui1;
             boolean possui2;
             boolean possui3;
-            for (int i = linhaI; i < linhaI + linhaF - 1; i++) {
-                for (int j = colunaI; j < colunaI + colunaF - 1; j++) {
-                    if(j == 376 && i == 732 && p.getId() == 214 && altura == 186){
-                        int a = 0;
-                    }
+            for (int i = linhaI; i <= linhaI + linhaF - 1; i++) {
+                for (int j = colunaI; j <= colunaI + colunaF - 1; j++) {
+                    // if (i == 9 && j == 929 && altura == 1 && p.getId() == 30) {
+                    // int a = tabela[i][j];
+                    // int b = 0;
+                    // }
                     if (tabela[i][j] > altura) {
-                        return false;
+                        return procuraProximo(i, j, altura);
+//                        return j;
                     }
                 }
             }
@@ -131,9 +138,12 @@ public class Treno {
             possui2 = tabela[linhaI + linhaF - 1][colunaI + colunaF - 1] <= altura;
             possui3 = tabela[linhaI + linhaF - 1][colunaI] <= altura;
 
-            return possui1 && possui2 && possui3;
+            return 0;
         }
-        return false;
+        //Math.negateExact(altura);
+        int ca = (colunaI + colunaF - 1) >= tabela.length ? colunaI + colunaF - 1 : Math.negateExact(linhaI + linhaF - 1);
+//        return colunaI + colunaF - 1;
+        return ca;
     }
 
     public void imprimirTabela() {
@@ -147,23 +157,59 @@ public class Treno {
 
     public void atualizaListaAlturas() {
         alturas.clear();
-        //c.clear();
+//        c.clear();
+        // lAlturas = new int[61168];
+//        Arrays.fill(lAlturas, 1);
         for (int i = 1; i < tabela.length; i++) {
             for (int j = 1; j < tabela.length; j++) {
 
                 alturas.add(tabela[i][j]);
+               // todasAlturas.add(tabela[i][j]);
+                //c.add(tabela[i][j]);
+                // lAlturas[tabela[i][j]] = tabela[i][j];
 
             }
         }
+
+                //        c.add(1);
+        //        for (int is : lAlturas) {
+        //            if (is != 1) {
+        //                c.add(is);
+        //            }
+        //        }
+        //        for (int is : alturas) {
+        //            if (is != 1) {
+        //                System.out.print(is + " ");
+        //            }
+        //           
+        //        }
+        //         System.out.println();
         //Collections.sort(c);
         //alturas.addAll(c);
     }
 
-    private void inicializaTreino() {
+    public void put(int i, int j, int e) {
+//        lAlturas[(i) * tabela.length + j] = e;
+    }
+
+    private void inicializaTreno() {
         for (int i = 0; i < tabela.length; i++) {
             for (int j = 0; j < tabela.length; j++) {
                 tabela[i][j] = 1;
             }
         }
     }
+
+    private int procuraProximo(int i, int j, int altura) {
+        for (int a = i; a < i + 1; a++) {
+            for (int b = j; b < 1000; b++) {
+                if (tabela[a][b] <= altura) {
+                    return b;
+                }
+            }
+
+        }
+        return 1000;
+    }
+
 }

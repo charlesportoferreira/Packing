@@ -53,13 +53,13 @@ public class Presente {
     }
 
     public int getZ() {
-        return altura ;
+        return altura;
     }
     
     public int getZMax(){
         return zMax;
     }
-    
+
     public int getAreaXY() {
         return x * y;
     }
