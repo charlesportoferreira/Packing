@@ -5,8 +5,6 @@
  */
 package fitness;
 
-import java.util.Arrays;
-
 /**
  *
  * @author charles

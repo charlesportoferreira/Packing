@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
-import static packing.Packing.presentes;
 import packing.Presente;
 import packing.Treno;
 
@@ -20,7 +19,7 @@ import packing.Treno;
  *
  * @author charleshenriqueportoferreira
  */
-public class Cromossomo {
+public class Cromossomo implements Runnable {
 
     private double[] genes;
     private List<Presente> presentes;
@@ -28,10 +27,9 @@ public class Cromossomo {
     int id;
     public Treno t;
 
-    public int getId() {
-        return id;
-    }
-
+    //public int getId() {
+    //  return id;
+    //}
     public void setId(int id) {
         this.id = id;
     }
@@ -51,10 +49,10 @@ public class Cromossomo {
         t = new Treno(1000);
     }
 
-    public void atualizaFitness(){
+    public void atualizaFitness() {
         this.fitness = getFitnessPresente();
     }
-    
+
     public double getFitnessPresente() {
         atualizaTreno();
 
@@ -111,7 +109,7 @@ public class Cromossomo {
 
     public double getFitness() {
         //if (fitness == 12345.12345) {
-       // calculaFitness(funcaoFitness);
+        // calculaFitness(funcaoFitness);
         // }
         return fitness;
     }
@@ -149,6 +147,11 @@ public class Cromossomo {
             t.inserePresente(presentes.get(i));
         }
         //t.imprimirTabela();
+    }
+
+    @Override
+    public void run() {
+        this.fitness = this.getFitnessPresente();
     }
 
 }

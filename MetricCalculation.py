@@ -241,8 +241,8 @@ def getTotalVolume(solution):
 if __name__ == "__main__":
     
     start = time.clock()
-    
-    path = '/Users/charleshenriqueportoferreira/NetBeansProjects/Packing'
+    path = '/home/ufabc/NetBeansProjects/Packing'
+    #path = '/Users/charleshenriqueportoferreira/NetBeansProjects/Packing'
     presentsFilename = os.path.join(path, 'presents.csv')
     submissionFilename = os.path.join(path, 'resposta.csv')
 

@@ -5,13 +5,6 @@
  */
 package packing;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -104,7 +97,7 @@ public class Treno {
                         return linha + "," + coluna + "," + altura;
                     } else {
                         if (proximoEstado > 0) {
-                            coluna = proximoEstado;
+                            coluna = proximoEstado-1;
                         } else {
                             //System.out.println("Opa");
                             coluna = 1000;

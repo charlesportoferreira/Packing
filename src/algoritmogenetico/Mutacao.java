@@ -71,12 +71,12 @@ public class Mutacao {
         int p1 = 0 + (int) (Math.random() * (ponto - 0));
         int p2 = 0 + (int) (Math.random() * (ponto - 0));
         Presente aux1 = presentes.get(p1);
-        System.out.println("antes da mutação");
-        imprimirPresentes(new Cromossomo(presentes));
+       // System.out.println("antes da mutação");
+       // imprimirPresentes(new Cromossomo(presentes));
         presentes.set(p1, presentes.get(p2));
         presentes.set(p2, aux1);
-        System.out.println("pos mutação");
-        imprimirPresentes(new Cromossomo(presentes));
+       // System.out.println("pos mutação");
+       // imprimirPresentes(new Cromossomo(presentes));
 
     }
 

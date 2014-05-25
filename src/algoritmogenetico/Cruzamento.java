@@ -6,10 +6,7 @@
 package algoritmogenetico;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import packing.Packing;
 import packing.Presente;
 
 public class Cruzamento {
@@ -77,10 +74,10 @@ public class Cruzamento {
     }
 
     public static List<Presente> corte(List<Presente> p1, List<Presente> p2, int posCorteInicial, int posCorteFinal, int tamanho) {
-        System.out.println("----");
-        imprimirPresentes(new Cromossomo(p1));
-        imprimirPresentes(new Cromossomo(p2));
-        System.out.println("----");
+        //System.out.println("----");
+        //imprimirPresentes(new Cromossomo(p1));
+        //imprimirPresentes(new Cromossomo(p2));
+        //System.out.println("----");
         List<Integer> genesPreDefinidos = new ArrayList<>();
 
         //int metade = (int) Math.floor(tamanho / 2);
@@ -102,7 +99,7 @@ public class Cruzamento {
             }
             j++;
         }
-        imprimirPresentes(new Cromossomo(f1));
+        //imprimirPresentes(new Cromossomo(f1));
         return f1;
     }
 

@@ -29,7 +29,7 @@ public class AlgoritmoGenetico {
     }
 
     public AlgoritmoGenetico(List<Presente> presentes, int dimensao) {
-        tamanhoPopulacao = 3;
+        tamanhoPopulacao = 100;
         this.dimensao = dimensao;
         cromossomos = new ArrayList<>(tamanhoPopulacao);
         this.min = 0;
@@ -48,8 +48,8 @@ public class AlgoritmoGenetico {
     public void inicializaCromosssomo(List<Presente> presentes) {
         for (int i = 0; i < tamanhoPopulacao; i++) {
             Cromossomo c = new Cromossomo(presentes);
-            c.inicializarGenes(5);
-            imprimirPresentes(c);
+            c.inicializarGenes(70);
+            //imprimirPresentes(c);
             List<Presente> p = new ArrayList<>(c.getGenesPresente());
             cromossomos.add(new Cromossomo(p));
         }
@@ -63,7 +63,7 @@ public class AlgoritmoGenetico {
             int pai2 = 0 + (int) (Math.random() * (tamanhoPopulacao - 0));
             List<Presente> filho = new ArrayList<>(tamanhoPopulacao);
             if (probCruzamento > 25) {
-                filho = Cruzamento.corte(cromossomos.get(pai1).getGenesPresente(), cromossomos.get(pai2).getGenesPresente(), 3, 6, 10);
+                filho = Cruzamento.corte(cromossomos.get(pai1).getGenesPresente(), cromossomos.get(pai2).getGenesPresente(), 30, 60, 10);
             } else {
                 filho = new ArrayList<>(cromossomos.get(pai1).getGenesPresente());
             }
@@ -79,9 +79,10 @@ public class AlgoritmoGenetico {
         for (int i = 0; i < 0.3 * dimensao; i++) {
             int rand1 = 0 + (int) (Math.random() * (tamanhoPopulacao - 0));
             Mutacao.MutacaoPresente(cromossomos.get(rand1).getGenesPresente(), dimensao / 2);
-            for (Cromossomo cromossomo : cromossomos) {
-                cromossomo.atualizaFitness();
-            }
+
+        }
+        for (Cromossomo cromossomo : cromossomos) {
+            //cromossomo.atualizaFitness();
         }
     }
 

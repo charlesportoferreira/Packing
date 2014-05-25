@@ -16,9 +16,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.Stack;
@@ -43,13 +41,15 @@ public class Packing {
         lerArquivo();
         Treno t = new Treno(1000);
         System.out.println("Lido todos os presentes");
-        
+
         AlgoritmoGenetico ag = new AlgoritmoGenetico(presentes, 10);
         ag.inicializaCromosssomo(presentes);
-        ag.executaCrossover();
-        ag.executaMutacao();
-        ag.executaSelecao();
-        ag.avaliaSolucao();
+        for (int i = 0; i < 10; i++) {
+            ag.executaCrossover();
+            ag.executaMutacao();
+            ag.executaSelecao();
+            ag.avaliaSolucao();
+        }
         System.exit(0);
         Instant inicio = Instant.now();
         for (int i = 0; i < presentes.size(); i++) {
@@ -81,8 +81,7 @@ public class Packing {
         for (Integer integer : todasAlturas) {
             pilha.addElement(integer);
         }
-        
-        
+
         ArrayList<Integer> todos = new ArrayList<>();
         int qtde = pilha.size();
         for (int i = 0; i < qtde; i++) {
@@ -160,7 +159,7 @@ public class Packing {
                 int i = 0;
                 int somaAltura = 0;
                 while (in.ready()) {
-                    if (i > 9) {
+                    if (i > 99) {
                         break;
                     }
                     str = in.readLine();
