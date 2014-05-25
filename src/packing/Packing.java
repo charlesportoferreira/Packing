@@ -47,6 +47,9 @@ public class Packing {
         AlgoritmoGenetico ag = new AlgoritmoGenetico(presentes, 10);
         ag.inicializaCromosssomo(presentes);
         ag.executaCrossover();
+        ag.executaMutacao();
+        ag.executaSelecao();
+        ag.avaliaSolucao();
         System.exit(0);
         Instant inicio = Instant.now();
         for (int i = 0; i < presentes.size(); i++) {

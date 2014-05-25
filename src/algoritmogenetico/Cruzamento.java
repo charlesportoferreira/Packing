@@ -76,20 +76,24 @@ public class Cruzamento {
         return cromossomos;
     }
 
-    public static List<Presente> corte(List<Presente> p1, List<Presente> p2, int posicaoCorte, int tamanho) {
+    public static List<Presente> corte(List<Presente> p1, List<Presente> p2, int posCorteInicial, int posCorteFinal, int tamanho) {
         System.out.println("----");
         imprimirPresentes(new Cromossomo(p1));
         imprimirPresentes(new Cromossomo(p2));
+        System.out.println("----");
         List<Integer> genesPreDefinidos = new ArrayList<>();
 
         //int metade = (int) Math.floor(tamanho / 2);
         List<Presente> f1 = new ArrayList<>(p1);
-        for (int i = posicaoCorte; i < tamanho; i++) {
+        int k = 0;
+        for (int i = posCorteInicial; i < posCorteFinal; i++) {
             genesPreDefinidos.add(p1.get(i).getId());
+            f1.set(k, p1.get(i));
+            k++;
         }
         //Collections.copy(f1, p1);
 
-        int i = 0;
+        int i = posCorteFinal - posCorteInicial;
         int j = 0;
         while (j < tamanho) {
             if (!genesPreDefinidos.contains(p2.get(j).getId())) {
@@ -101,14 +105,13 @@ public class Cruzamento {
         imprimirPresentes(new Cromossomo(f1));
         return f1;
     }
-    
-     public static  void imprimirPresentes(Cromossomo c) {
+
+    public static void imprimirPresentes(Cromossomo c) {
 
         for (Presente presente : c.getGenesPresente()) {
             System.out.print(presente.getId() + " ");
         }
         System.out.println();
     }
-    
 
 }

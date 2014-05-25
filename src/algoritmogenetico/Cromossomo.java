@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+import static packing.Packing.presentes;
 import packing.Presente;
+import packing.Treno;
 
 /**
  *
@@ -24,6 +26,7 @@ public class Cromossomo {
     private List<Presente> presentes;
     private double fitness;
     int id;
+    public Treno t;
 
     public int getId() {
         return id;
@@ -45,9 +48,16 @@ public class Cromossomo {
 
     public Cromossomo(List<Presente> presentes) {
         this.presentes = presentes;
+        t = new Treno(1000);
     }
 
+    public void atualizaFitness(){
+        this.fitness = getFitnessPresente();
+    }
+    
     public double getFitnessPresente() {
+        atualizaTreno();
+
         Stack<Integer> pilha = new Stack<>();
         Set<Integer> todasAlturas = new TreeSet<>();
         for (Presente presente : presentes) {
@@ -72,8 +82,8 @@ public class Cromossomo {
             todos.addAll(altPre);
         }
         //Collections.reverse(todos);
-
-        return calculaFitnessPresente(todos, alturaMaxima);
+        this.fitness = calculaFitnessPresente(todos, alturaMaxima);
+        return fitness;
     }
 
     public void inicializarGenes(double min, double max) {
@@ -101,7 +111,7 @@ public class Cromossomo {
 
     public double getFitness() {
         //if (fitness == 12345.12345) {
-        calculaFitness(funcaoFitness);
+       // calculaFitness(funcaoFitness);
         // }
         return fitness;
     }
@@ -131,6 +141,14 @@ public class Cromossomo {
         int resultado = (2 * alturaMaxima) + somatorio;
         System.out.println("\nMinha metrica: " + resultado);
         return resultado;
+    }
+
+    private void atualizaTreno() {
+        for (int i = 0; i < presentes.size(); i++) {
+
+            t.inserePresente(presentes.get(i));
+        }
+        //t.imprimirTabela();
     }
 
 }

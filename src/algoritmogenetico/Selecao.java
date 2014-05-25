@@ -69,29 +69,10 @@ public class Selecao {
 
     public static List<Cromossomo> Elitismo(List<Cromossomo> cromossomos, int nElementos) {
         Collections.sort(cromossomos, new ComparadorCromossomo());
-        List<Cromossomo> copias = new ArrayList<>(cromossomos.subList(0, nElementos));
-       // List<Cromossomo> copias = new ArrayList<>(cromossomos.subList(0, cromossomos.size()));
-//        cromossomos.clear();
-//        double fitnessAtual;
-//        double bestFitness;
-//        int posicaoMelhorFitness;
-//        for (int j = 0; j < nElementos; j++) {
-//            //iniciliaza o bestFitness com o primeiro fitness temporariamente
-//            bestFitness = 1 / copias.get(0).getFitness();
-//            posicaoMelhorFitness = 0;
-//            int i = 0;
-//            while (i < copias.size()) {
-//                fitnessAtual = 1 / copias.get(i).getFitness();
-//                if (fitnessAtual > bestFitness) {
-//                    bestFitness = fitnessAtual;
-//                    posicaoMelhorFitness = i;
-//                }
-//                i++;
-//            }
-//            cromossomos.add(copias.get(posicaoMelhorFitness));
-//            copias.remove(posicaoMelhorFitness);
-//        }
-        // return cromossomos;
+        List<Cromossomo> copias = new ArrayList<>(nElementos);
+        for (int i = 0; i < nElementos; i++) {
+            copias.add(cromossomos.get(i));
+        }
         return copias;
     }
 
