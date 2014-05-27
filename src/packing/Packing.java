@@ -159,7 +159,7 @@ public class Packing {
                 int i = 0;
                 int somaAltura = 0;
                 while (in.ready()) {
-                    if (i > 99) {
+                    if (i > 1000) {
                         break;
                     }
                     str = in.readLine();

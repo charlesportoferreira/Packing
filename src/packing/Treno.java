@@ -20,21 +20,21 @@ public class Treno {
     //HashMap<Integer,> areas;
     public Set<Integer> alturas;
    // public Set<Integer> todasAlturas;
-   // int[] lAlturas;
-   // ArrayList<Integer> c;
+    // int[] lAlturas;
+    // ArrayList<Integer> c;
 
     public Treno(int tamanho) {
 
         this.tabela = new int[tamanho + 1][tamanho + 1];
        // areas = new HashMap<>();
-      //  todasAlturas = new HashSet<>();
+        //  todasAlturas = new HashSet<>();
 
-       // c = new ArrayList<>(200);
+        // c = new ArrayList<>(200);
         alturas = new TreeSet<>();
         alturas.add(1);
         //c.add(1);
         inicializaTreno();
-  //      lAlturas = new int[61168];
+        //      lAlturas = new int[61168];
 //        lAlturas[0] = 1;
 
     }
@@ -89,7 +89,7 @@ public class Treno {
             //}
             ultimaAltura = alt;
             altura = alt;
-            for (int linha = 1; linha < tabela.length; linha++) {
+            for (int linha = 1; linha < tabela.length; linha= linha + linha) {
                 for (int coluna = 1; coluna < tabela.length; coluna++) {
                     int proximoEstado = possuiEspacoLivre(linha, coluna, y, x, altura, p);
                     possuiEspaco = (proximoEstado == 0);
@@ -97,7 +97,7 @@ public class Treno {
                         return linha + "," + coluna + "," + altura;
                     } else {
                         if (proximoEstado > 0) {
-                            coluna = proximoEstado-1;
+                            coluna = proximoEstado - 1;
                         } else {
                             //System.out.println("Opa");
                             coluna = 1000;
@@ -157,14 +157,14 @@ public class Treno {
             for (int j = 1; j < tabela.length; j++) {
 
                 alturas.add(tabela[i][j]);
-               // todasAlturas.add(tabela[i][j]);
+                // todasAlturas.add(tabela[i][j]);
                 //c.add(tabela[i][j]);
                 // lAlturas[tabela[i][j]] = tabela[i][j];
 
             }
         }
 
-                //        c.add(1);
+        //        c.add(1);
         //        for (int is : lAlturas) {
         //            if (is != 1) {
         //                c.add(is);

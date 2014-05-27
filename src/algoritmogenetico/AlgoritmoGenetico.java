@@ -29,7 +29,7 @@ public class AlgoritmoGenetico {
     }
 
     public AlgoritmoGenetico(List<Presente> presentes, int dimensao) {
-        tamanhoPopulacao = 100;
+        tamanhoPopulacao = 10;
         this.dimensao = dimensao;
         cromossomos = new ArrayList<>(tamanhoPopulacao);
         this.min = 0;
@@ -82,7 +82,7 @@ public class AlgoritmoGenetico {
 
         }
         for (Cromossomo cromossomo : cromossomos) {
-            //cromossomo.atualizaFitness();
+            cromossomo.atualizaFitness();
         }
     }
 
