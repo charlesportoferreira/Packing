@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author charleshenriqueportoferreira
  */
-public class Presente {
+public class Presente implements Cloneable {
 
     private final int id;
     private int x;
@@ -35,6 +35,11 @@ public class Presente {
         //cubos = new ArrayList<>(dimX * dimY * dimZ);
     }
 
+    @Override
+    public Presente clone() throws CloneNotSupportedException  {
+        return (Presente) super.clone();
+    }
+
     public int getId() {
         return id;
     }
@@ -54,8 +59,8 @@ public class Presente {
     public int getZ() {
         return altura;
     }
-    
-    public int getZMax(){
+
+    public int getZMax() {
         return zMax;
     }
 
@@ -81,7 +86,7 @@ public class Presente {
         }
         xMax = x + comprimento - 1;
         yMax = y + largura - 1;
-        zMax = this.z + altura - 1 ;
+        zMax = this.z + altura - 1;
 
     }
 
@@ -124,8 +129,8 @@ public class Presente {
     public String toString() {
         StringBuilder ver = new StringBuilder();
         List<int[]> vertices = this.getVertices();
-            ver.append(this.id);
-            ver.append(",");
+        ver.append(this.id);
+        ver.append(",");
         for (int[] vertice : vertices) {
             ver.append(vertice[0]);
             ver.append(",");
@@ -134,7 +139,7 @@ public class Presente {
             ver.append(vertice[2]);
             ver.append(",");
         }
-        ver.deleteCharAt(ver.length()-1);
+        ver.deleteCharAt(ver.length() - 1);
         ver.append("\n");
         return ver.toString();
     }

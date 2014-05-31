@@ -68,7 +68,7 @@ public class Packing {
         for (Iterator<Integer> it = t.alturas.iterator(); it.hasNext();) {
             novaAltura = it.next();
             //pilha.addElement(novaAltura);
-            System.out.print(novaAltura + " ");
+            //System.out.print(novaAltura + " ");
             if (novaAltura > maxAltura) {
                 maxAltura = novaAltura;
             }
@@ -159,7 +159,7 @@ public class Packing {
                 int i = 0;
                 int somaAltura = 0;
                 while (in.ready()) {
-                    if (i > 1000) {
+                    if (i > 999) {
                         break;
                     }
                     str = in.readLine();
@@ -221,7 +221,7 @@ public class Packing {
             somatorio += Math.abs((i + 1) - todos.get(i));
         }
         int resultado = (2 * maxAltura) + somatorio;
-        System.out.println("\nMinha metrica: " + resultado);
+        System.out.println("\nMinha metrica: " + resultado + " somatorio: " + somatorio + " 2*altura: "+ 2 * maxAltura);
 
     }
 

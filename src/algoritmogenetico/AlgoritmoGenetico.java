@@ -1,7 +1,16 @@
 package algoritmogenetico;
 
+import com.sun.corba.se.spi.orbutil.threadpool.ThreadPool;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import packing.Presente;
 
 public class AlgoritmoGenetico {
@@ -18,18 +27,10 @@ public class AlgoritmoGenetico {
     private final int funcaoFitness;
     private int count = 0;
 
-    public AlgoritmoGenetico(int dimensao, double min, double max, int funcaoFitness) {
-        this.dimensao = dimensao;
-        tamanhoPopulacao = 200;
-        cromossomos = new ArrayList<>(tamanhoPopulacao);
-        this.min = min;
-        this.max = max;
-        melhorSolucao = 12345.12345;
-        this.funcaoFitness = funcaoFitness;
-    }
+  
 
     public AlgoritmoGenetico(List<Presente> presentes, int dimensao) {
-        tamanhoPopulacao = 10;
+        tamanhoPopulacao = 2;
         this.dimensao = dimensao;
         cromossomos = new ArrayList<>(tamanhoPopulacao);
         this.min = 0;
@@ -37,13 +38,7 @@ public class AlgoritmoGenetico {
         this.funcaoFitness = 0;
     }
 
-    public void inicializaCromossomo() {
-        for (int i = 0; i < tamanhoPopulacao; i++) {
-            Cromossomo c = new Cromossomo(dimensao, funcaoFitness);
-            c.inicializarGenes(min, max);
-            cromossomos.add(c);
-        }
-    }
+   
 
     public void inicializaCromosssomo(List<Presente> presentes) {
         for (int i = 0; i < tamanhoPopulacao; i++) {
@@ -53,6 +48,7 @@ public class AlgoritmoGenetico {
             List<Presente> p = new ArrayList<>(c.getGenesPresente());
             cromossomos.add(new Cromossomo(p));
         }
+        cromossomoEscolhido = cromossomos.get(0);
     }
 
     public void executaCrossover() {
@@ -73,17 +69,38 @@ public class AlgoritmoGenetico {
         for (Cromossomo novoCromossomo : novaPopulacao) {
             cromossomos.add(novoCromossomo);
         }
+        int a = 0;
     }
 
     public void executaMutacao() {
         for (int i = 0; i < 0.3 * dimensao; i++) {
             int rand1 = 0 + (int) (Math.random() * (tamanhoPopulacao - 0));
-            Mutacao.MutacaoPresente(cromossomos.get(rand1).getGenesPresente(), dimensao / 2);
+            // Mutacao.MutacaoPresente(cromossomos.get(rand1).getGenesPresente(), dimensao / 2);
 
         }
+        List<Future> futures = new ArrayList<>();
+        ExecutorService pool = Executors.newFixedThreadPool(cromossomos.size());
+        //int pronto = 0;
         for (Cromossomo cromossomo : cromossomos) {
-            cromossomo.atualizaFitness();
+            //cromossomo.atualizaFitness();
+            if(cromossomo.best){
+                continue;
+            }
+            Future f = pool.submit(cromossomo);
+            futures.add(f);
         }
+        Instant inicio = Instant.now();
+        for (Future future : futures) {
+            try {
+                future.get();
+            } catch (InterruptedException | ExecutionException ex) {
+                Logger.getLogger(AlgoritmoGenetico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        Instant fim = Instant.now();
+        Duration duracao = Duration.between(inicio, fim);
+        long duracaoEmMilissegundos = duracao.toMillis();
+        System.out.println(duracaoEmMilissegundos);
     }
 
     public void executaSelecao() {
@@ -96,42 +113,26 @@ public class AlgoritmoGenetico {
     public double avaliaSolucao() {
         double solucaoAtual;
         double bestFit = -888888;
-        cromossomoEscolhido = cromossomos.get(0);
+        for (Cromossomo cromossomo : cromossomos) {
+            cromossomo.best = false;
+        }
+
+        if (cromossomos.get(0).getFitness() < cromossomoEscolhido.getFitness()) {
+            cromossomoEscolhido = cromossomos.get(0);
+            cromossomos.get(0).best = true;
+        }else{
+            cromossomoEscolhido.best = true;
+        }
         count++;
         System.out.print(count + " Melhor solucao ate agora: " + cromossomoEscolhido.getFitness() + " ");
         imprimirPresentes(cromossomoEscolhido);
         return cromossomoEscolhido.getFitness();
     }
 
-    public double[] getMelhorCromossomo() {
-        return cromossomoEscolhido.getGenes();
-    }
+   
+   
 
-    private double getMenorGene() {
-        if (cromossomoEscolhido == null) {
-            return min;
-        }
-        double menor = 10000;
-        for (double gene : cromossomoEscolhido.getGenes()) {
-            if (menor > gene) {
-                menor = gene;
-            }
-        }
-        return menor;
-    }
-
-    private double getMaxGene() {
-        if (cromossomoEscolhido == null) {
-            return max;
-        }
-        double maior = -11111;
-        for (double gene : cromossomoEscolhido.getGenes()) {
-            if (maior < gene) {
-                maior = gene;
-            }
-        }
-        return maior;
-    }
+    
 
     public void imprimirPresentes(Cromossomo c) {
 

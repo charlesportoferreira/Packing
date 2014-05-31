@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import packing.Presente;
 import packing.Treno;
 
@@ -21,11 +23,11 @@ import packing.Treno;
  */
 public class Cromossomo implements Runnable {
 
-    private double[] genes;
     private List<Presente> presentes;
     private double fitness;
     int id;
     public Treno t;
+    boolean best;
 
     //public int getId() {
     //  return id;
@@ -36,17 +38,18 @@ public class Cromossomo implements Runnable {
 
     int funcaoFitness;
 
-    public Cromossomo(int tamanho, int funcaoFitness) {
-        genes = new double[tamanho];
-
-        fitness = -12345.12345;//inicializa o fitness com um valor 
-        this.funcaoFitness = funcaoFitness;
-
-    }
-
     public Cromossomo(List<Presente> presentes) {
-        this.presentes = presentes;
+        this.presentes = new ArrayList<>();
+        for (Presente presente : presentes) {
+            try {
+                this.presentes.add(presente.clone());
+            } catch (CloneNotSupportedException ex) {
+                System.out.println("!!!!!!!!!!!!!!!!!!");
+                Logger.getLogger(Cromossomo.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         t = new Treno(1000);
+        best = false;
     }
 
     public void atualizaFitness() {
@@ -84,14 +87,6 @@ public class Cromossomo implements Runnable {
         return fitness;
     }
 
-    public void inicializarGenes(double min, double max) {
-        for (int i = 0; i < genes.length; i++) {
-            double random = min + (Math.random() * ((max - (min))));
-            genes[i] = Math.round(random * 10000.0) / 10000.0;
-        }
-        calculaFitness(funcaoFitness);
-    }
-
     public void inicializarGenes(int ponto) {
         for (int i = 0; i < presentes.size(); i++) {
             int p1 = 0 + (int) (Math.random() * (ponto - 0));
@@ -103,10 +98,6 @@ public class Cromossomo implements Runnable {
 
     }
 
-    public void calculaFitness(int funcaoFitness) {
-        fitness = new Fitness(this.genes, funcaoFitness).getFitness();
-    }
-
     public double getFitness() {
         //if (fitness == 12345.12345) {
         // calculaFitness(funcaoFitness);
@@ -114,21 +105,8 @@ public class Cromossomo implements Runnable {
         return fitness;
     }
 
-    public double[] getGenes() {
-        return this.genes;
-    }
-
     public List<Presente> getGenesPresente() {
         return this.presentes;
-    }
-
-    public void setGenes(double genes[]) {
-        this.genes = genes;
-        calculaFitness(funcaoFitness);
-    }
-
-    public int getDimensao() {
-        return genes.length;
     }
 
     private int calculaFitnessPresente(ArrayList<Integer> todos, int alturaMaxima) {
@@ -137,7 +115,7 @@ public class Cromossomo implements Runnable {
             somatorio += Math.abs((i + 1) - todos.get(i));
         }
         int resultado = (2 * alturaMaxima) + somatorio;
-        System.out.println("\nMinha metrica: " + resultado);
+        System.out.println("\nMinha metrica: " + resultado + " somatorio: " + somatorio + " 2*altura: " + 2 * alturaMaxima);
         return resultado;
     }
 

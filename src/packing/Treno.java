@@ -19,7 +19,7 @@ public class Treno {
     int fitness;
     //HashMap<Integer,> areas;
     public Set<Integer> alturas;
-   // public Set<Integer> todasAlturas;
+    // public Set<Integer> todasAlturas;
     // int[] lAlturas;
     // ArrayList<Integer> c;
 
@@ -89,7 +89,7 @@ public class Treno {
             //}
             ultimaAltura = alt;
             altura = alt;
-            for (int linha = 1; linha < tabela.length; linha= linha + linha) {
+            for (int linha = 1; linha < tabela.length; linha = linha + linha) {
                 for (int coluna = 1; coluna < tabela.length; coluna++) {
                     int proximoEstado = possuiEspacoLivre(linha, coluna, y, x, altura, p);
                     possuiEspaco = (proximoEstado == 0);

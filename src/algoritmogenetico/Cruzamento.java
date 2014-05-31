@@ -7,6 +7,8 @@ package algoritmogenetico;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import packing.Presente;
 
 public class Cruzamento {
@@ -19,22 +21,6 @@ public class Cruzamento {
         cromossomos = new double[2][pai1.length];
         this.pai1 = pai1;
         this.pai2 = pai2;
-    }
-
-    public static double[][] mediaPonderada(double genesPai1[], double genesPai2[], double fatorPonderacao) {
-        double cromo[][] = new double[2][];
-        double filho1[] = new double[genesPai1.length];
-        double filho2[] = new double[genesPai2.length];
-        for (int i = 0; i < genesPai1.length; i++) {
-
-            filho1[i] = fatorPonderacao * genesPai1[i] + (1 - fatorPonderacao) * genesPai2[i];
-            filho1[i] = Math.round(filho1[i] * 10000.0) / 10000.0;
-            filho2[i] = (1 - fatorPonderacao) * genesPai1[i] + fatorPonderacao * genesPai2[i];
-            filho2[i] = Math.round(filho2[i] * 10000.0) / 10000.0;
-        }
-        cromo[0] = filho1;
-        cromo[1] = filho2;
-        return cromo;
     }
 
     public double[][] CX(int posicaoCorte, int tamanho) {
@@ -81,7 +67,14 @@ public class Cruzamento {
         List<Integer> genesPreDefinidos = new ArrayList<>();
 
         //int metade = (int) Math.floor(tamanho / 2);
-        List<Presente> f1 = new ArrayList<>(p1);
+        List<Presente> f1 = new ArrayList<>();
+        for (Presente presente : p1) {
+            try {
+                f1.add(presente.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(Cruzamento.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         int k = 0;
         for (int i = posCorteInicial; i < posCorteFinal; i++) {
             genesPreDefinidos.add(p1.get(i).getId());
