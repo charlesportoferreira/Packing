@@ -44,12 +44,13 @@ public class Packing {
 
         AlgoritmoGenetico ag = new AlgoritmoGenetico(presentes, 10);
         ag.inicializaCromosssomo(presentes);
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 5; i++) {
             ag.executaCrossover();
             ag.executaMutacao();
             ag.executaSelecao();
             ag.avaliaSolucao();
         }
+        escreverArquivo(ag.getMelhorCromossomo());
         System.exit(0);
         Instant inicio = Instant.now();
         for (int i = 0; i < presentes.size(); i++) {
@@ -101,7 +102,7 @@ public class Packing {
         duracao = Duration.between(inicio, fim);
         duracaoEmMilissegundos = duracao.toMillis();
         System.out.println(duracaoEmMilissegundos);
-        escreverArquivo(t);
+        escreverArquivo(presentes);
 
         System.exit(0);
 //        Presente p1 = new Presente(1, 2, 4, 2);
@@ -184,14 +185,15 @@ public class Packing {
         }
     }
 
-    public static void escreverArquivo(Treno t) {
+    public static void escreverArquivo(List<Presente> p) {
 
         StringBuilder texto = new StringBuilder();
         texto.append("PresentId,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8\n");
-        for (int i = 0; i < presentes.size(); i++) {
-            texto.append(presentes.get(i));
+        for (int i = 0; i < p.size(); i++) {
+            texto.append(p.get(i));
         }
-        //texto.replace(texto.length()-2, texto.length()-1, "");
+      int pos =  texto.lastIndexOf("\n");
+      texto.setCharAt(pos, ' ');
         //System.out.println(texto);
         FileWriter fw = null;
         try {

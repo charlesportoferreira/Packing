@@ -60,10 +60,11 @@ public class Cruzamento {
     }
 
     public static List<Presente> corte(List<Presente> p1, List<Presente> p2, int posCorteInicial, int posCorteFinal, int tamanho) {
-        //System.out.println("----");
-        //imprimirPresentes(new Cromossomo(p1));
-        //imprimirPresentes(new Cromossomo(p2));
-        //System.out.println("----");
+        System.out.println("----");
+        System.out.println(posCorteInicial + " " + posCorteFinal);
+        imprimirPresentes(new Cromossomo(p1));
+        imprimirPresentes(new Cromossomo(p2));
+        System.out.println("----");
         List<Integer> genesPreDefinidos = new ArrayList<>();
 
         //int metade = (int) Math.floor(tamanho / 2);
@@ -75,24 +76,39 @@ public class Cruzamento {
                 Logger.getLogger(Cruzamento.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        int k = 0;
+        // int k = 0;
         for (int i = posCorteInicial; i < posCorteFinal; i++) {
             genesPreDefinidos.add(p1.get(i).getId());
-            f1.set(k, p1.get(i));
-            k++;
-        }
-        //Collections.copy(f1, p1);
 
+        }
         int i = posCorteFinal - posCorteInicial;
         int j = 0;
-        while (j < tamanho) {
-            if (!genesPreDefinidos.contains(p2.get(j).getId())) {
-                f1.set(i, p2.get(j));
-                i++;
+        for (Presente presente : p2) {
+            if (genesPreDefinidos.contains(presente.getId())) {
+                continue;
+            }
+            if (j == posCorteInicial) {
+                j = posCorteFinal;
+            }
+            try {
+                f1.set(j, presente.clone());
+            } catch (CloneNotSupportedException ex) {
+                Logger.getLogger(Cruzamento.class.getName()).log(Level.SEVERE, null, ex);
             }
             j++;
         }
-        //imprimirPresentes(new Cromossomo(f1));
+//        while (j < tamanho) {
+//            if (!genesPreDefinidos.contains(p2.get(j).getId())) {
+//                try {
+//                    f1.set(i, p2.get(j).clone());
+//                } catch (CloneNotSupportedException ex) {
+//                    Logger.getLogger(Cruzamento.class.getName()).log(Level.SEVERE, null, ex);
+//                }
+//                i++;
+//            }
+//            j++;
+//        }
+        imprimirPresentes(new Cromossomo(f1));
         return f1;
     }
 

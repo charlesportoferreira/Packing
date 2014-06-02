@@ -5,6 +5,7 @@
  */
 package packing;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -31,6 +32,7 @@ public class Treno {
 
         // c = new ArrayList<>(200);
         alturas = new TreeSet<>();
+//        alturas = new HashSet<>();
         alturas.add(1);
         //c.add(1);
         inicializaTreno();
@@ -90,14 +92,14 @@ public class Treno {
             ultimaAltura = alt;
             altura = alt;
             for (int linha = 1; linha < tabela.length; linha = linha + linha) {
-                for (int coluna = 1; coluna < tabela.length; coluna++) {
+                for (int coluna = 1; coluna < tabela.length; coluna = coluna + coluna) {
                     int proximoEstado = possuiEspacoLivre(linha, coluna, y, x, altura, p);
                     possuiEspaco = (proximoEstado == 0);
                     if (possuiEspaco) {
                         return linha + "," + coluna + "," + altura;
                     } else {
                         if (proximoEstado > 0) {
-                            coluna = proximoEstado - 1;
+                           // coluna = proximoEstado - 1;
                         } else {
                             //System.out.println("Opa");
                             coluna = 1000;
@@ -122,8 +124,8 @@ public class Treno {
                     // int b = 0;
                     // }
                     if (tabela[i][j] > altura) {
-                        return procuraProximo(i, j, altura);
-//                        return j;
+//                        return procuraProximo(i, j, altura);
+                        return 1;
                     }
                 }
             }

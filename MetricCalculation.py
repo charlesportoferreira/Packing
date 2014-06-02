@@ -241,8 +241,8 @@ def getTotalVolume(solution):
 if __name__ == "__main__":
     
     start = time.clock()
-    path = '/home/ufabc/NetBeansProjects/Packing'
-    #path = '/Users/charleshenriqueportoferreira/NetBeansProjects/Packing'
+    #path = '/home/ufabc/NetBeansProjects/Packing'
+    path = '/Users/charleshenriqueportoferreira/NetBeansProjects/Packing'
     presentsFilename = os.path.join(path, 'presents.csv')
     submissionFilename = os.path.join(path, 'resposta.csv')
 
@@ -269,5 +269,6 @@ if __name__ == "__main__":
     
     metric = 2 * max(orderedPresents.keys()) + orderTerm
     print 'Metric = ' + str(metric)
+    print 'Metric = ' + str(metric) + ' somatorio = ' + str(orderTerm) + ' maxAltura = ' + str(2 * max(orderedPresents.keys())) 
 
     print '\nTotal clock time = ' + str(time.clock() - start)
