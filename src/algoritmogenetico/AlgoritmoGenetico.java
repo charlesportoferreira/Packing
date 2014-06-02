@@ -71,7 +71,7 @@ public class AlgoritmoGenetico {
             if (probCruzamento > 99) {
                 filho = Cruzamento.corte(cromossomos.get(pai1).getGenesPresente(), cromossomos.get(pai2).getGenesPresente(), 30, 60, 10);
             } else {
-                for (Presente presente : cromossomos.get(0).getGenesPresente()) {
+                for (Presente presente : cromossomos.get(pai1).getGenesPresente()) {
                     try {
                         filho.add(presente.clone());
                     } catch (CloneNotSupportedException ex) {
@@ -140,7 +140,7 @@ public class AlgoritmoGenetico {
         if (cromossomos.get(0).getFitness() < cromossomoEscolhido.getFitness()) {
             cromossomoEscolhido = cromossomos.get(0);
             cromossomos.get(0).best = true;
-            //cromossomos.get(1).best = true;
+            cromossomos.get(1).best = true;
         } else {
             cromossomoEscolhido.best = true;
         }
