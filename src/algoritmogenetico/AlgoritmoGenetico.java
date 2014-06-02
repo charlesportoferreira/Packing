@@ -12,6 +12,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import packing.Packing;
 import packing.Presente;
 
 public class AlgoritmoGenetico {
@@ -22,6 +23,7 @@ public class AlgoritmoGenetico {
     private final int tamanhoPopulacao;
     private Cromossomo cromossomoEscolhido;
     private int count = 0;
+    int deslocamento = 15;
 
     public AlgoritmoGenetico(List<Presente> presentes, int dimensao) {
         tamanhoPopulacao = 5;
@@ -30,7 +32,7 @@ public class AlgoritmoGenetico {
     }
 
     public void inicializaCromosssomo(List<Presente> presentes) {
-        int deslocamento = 10;
+       // int deslocamento = 20;
         for (int i = 0; i < tamanhoPopulacao; i++) {
             Cromossomo c = new Cromossomo(presentes);
 
@@ -62,14 +64,14 @@ public class AlgoritmoGenetico {
         }
         int probCruzamento = 0 + (int) (Math.random() * (100 - 0));
         for (int i = 0; i < 2*tamanhoPopulacao; i++) {
-            int pai1 = 0 + (int) (Math.random() * (tamanhoPopulacao - 0));
-            int pai2 = 0 + (int) (Math.random() * (tamanhoPopulacao - 0));
+            int pai1 = 0 + (int) (Math.random() * (2 - 0));
+            int pai2 = 0 + (int) (Math.random() * (2 - 0));
             // System.out.println(pai1 + " " + pai2);
             List<Presente> filho = new ArrayList<>(tamanhoPopulacao);
             if (probCruzamento > 99) {
                 filho = Cruzamento.corte(cromossomos.get(pai1).getGenesPresente(), cromossomos.get(pai2).getGenesPresente(), 30, 60, 10);
             } else {
-                for (Presente presente : cromossomos.get(pai1).getGenesPresente()) {
+                for (Presente presente : cromossomos.get(0).getGenesPresente()) {
                     try {
                         filho.add(presente.clone());
                     } catch (CloneNotSupportedException ex) {
@@ -93,7 +95,7 @@ public class AlgoritmoGenetico {
                 continue;
             }
             int pontoMutacao = 0 + (int) (Math.random() * (1000 - 0));
-             Mutacao.MutacaoPresente(cromossomos.get(i).getGenesPresente(), pontoMutacao, 10);
+             Mutacao.MutacaoPresente(cromossomos.get(i).getGenesPresente(), pontoMutacao, deslocamento);
 
         }
         List<Future> futures = new ArrayList<>();
@@ -138,17 +140,23 @@ public class AlgoritmoGenetico {
         if (cromossomos.get(0).getFitness() < cromossomoEscolhido.getFitness()) {
             cromossomoEscolhido = cromossomos.get(0);
             cromossomos.get(0).best = true;
+            //cromossomos.get(1).best = true;
         } else {
             cromossomoEscolhido.best = true;
         }
         count++;
         System.out.print(count + " Melhor solucao ate agora: " + cromossomoEscolhido.getFitness() + " ");
+        Packing.escreverArquivo(cromossomoEscolhido.getGenesPresente(), cromossomoEscolhido.getFitness());
         imprimirPresentes(cromossomoEscolhido);
         return cromossomoEscolhido.getFitness();
     }
 
     public List<Presente> getMelhorCromossomo() {
         return cromossomoEscolhido.getGenesPresente();
+    }
+    
+    public double  getMelhorMetrica(){
+        return cromossomoEscolhido.getFitness();
     }
 
     public void imprimirPresentes(Cromossomo c) {

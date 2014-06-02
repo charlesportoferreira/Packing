@@ -42,15 +42,17 @@ public class Packing {
         Treno t = new Treno(1000);
         System.out.println("Lido todos os presentes");
 
+        
+        
         AlgoritmoGenetico ag = new AlgoritmoGenetico(presentes, 10);
         ag.inicializaCromosssomo(presentes);
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 50; i++) {
             ag.executaCrossover();
             ag.executaMutacao();
             ag.executaSelecao();
             ag.avaliaSolucao();
         }
-        escreverArquivo(ag.getMelhorCromossomo());
+        escreverArquivo(ag.getMelhorCromossomo(),ag.getMelhorMetrica());
         System.exit(0);
         Instant inicio = Instant.now();
         for (int i = 0; i < presentes.size(); i++) {
@@ -102,7 +104,7 @@ public class Packing {
         duracao = Duration.between(inicio, fim);
         duracaoEmMilissegundos = duracao.toMillis();
         System.out.println(duracaoEmMilissegundos);
-        escreverArquivo(presentes);
+        escreverArquivo(presentes,0.0);
 
         System.exit(0);
 //        Presente p1 = new Presente(1, 2, 4, 2);
@@ -169,7 +171,17 @@ public class Packing {
                         int comprimento = Integer.parseInt(str.split(",")[1]);
                         int largura = Integer.parseInt(str.split(",")[2]);
                         int altura = Integer.parseInt(str.split(",")[3]);
-                        somaAltura += altura;
+                        //somaAltura += altura;
+                        if(altura > largura || altura > comprimento){
+                            int aux = altura;
+                            if(largura < comprimento){
+                                altura = largura;
+                                largura = aux;
+                            }else{
+                                altura = comprimento;
+                                comprimento = aux;
+                            }
+                        }
                         presentes.add(new Presente(id, comprimento, largura, altura));
                         i++;
                     }
@@ -185,7 +197,7 @@ public class Packing {
         }
     }
 
-    public static void escreverArquivo(List<Presente> p) {
+    public static void escreverArquivo(List<Presente> p, double metrica) {
 
         StringBuilder texto = new StringBuilder();
         texto.append("PresentId,x1,y1,z1,x2,y2,z2,x3,y3,z3,x4,y4,z4,x5,y5,z5,x6,y6,z6,x7,y7,z7,x8,y8,z8\n");
@@ -197,7 +209,7 @@ public class Packing {
         //System.out.println(texto);
         FileWriter fw = null;
         try {
-            fw = new FileWriter("resposta.csv");
+            fw = new FileWriter(String.valueOf(metrica)+ ".csv");
             try (BufferedWriter bw = new BufferedWriter(fw)) {
 
                 bw.write(texto.toString());
