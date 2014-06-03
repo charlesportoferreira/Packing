@@ -91,15 +91,15 @@ public class Treno {
             //}
             ultimaAltura = alt;
             altura = alt;
-            for (int linha = 1; linha < tabela.length; linha = linha + linha) {
-                for (int coluna = 1; coluna < tabela.length; coluna = coluna + coluna) {
+            for (int linha = 1; linha < tabela.length; linha = linha + 3 * linha) {
+                for (int coluna = 1; coluna < tabela.length; coluna = coluna +  2*coluna) {
                     int proximoEstado = possuiEspacoLivre(linha, coluna, y, x, altura, p);
                     possuiEspaco = (proximoEstado == 0);
                     if (possuiEspaco) {
                         return linha + "," + coluna + "," + altura;
                     } else {
                         if (proximoEstado > 0) {
-                           // coluna = proximoEstado - 1;
+                            // coluna = proximoEstado - 1;
                         } else {
                             //System.out.println("Opa");
                             coluna = 1000;
