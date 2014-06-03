@@ -26,7 +26,7 @@ public class AlgoritmoGenetico {
     int deslocamento = 5;
 
     public AlgoritmoGenetico(List<Presente> presentes, int dimensao) {
-        tamanhoPopulacao = 5;
+        tamanhoPopulacao = 2;
         this.dimensao = dimensao;
         cromossomos = new ArrayList<>(tamanhoPopulacao);
     }
