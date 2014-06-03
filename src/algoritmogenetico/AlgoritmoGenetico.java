@@ -23,10 +23,10 @@ public class AlgoritmoGenetico {
     private final int tamanhoPopulacao;
     private Cromossomo cromossomoEscolhido;
     private int count = 0;
-    int deslocamento = 15;
+    int deslocamento = 5;
 
     public AlgoritmoGenetico(List<Presente> presentes, int dimensao) {
-        tamanhoPopulacao = 4;
+        tamanhoPopulacao = 5;
         this.dimensao = dimensao;
         cromossomos = new ArrayList<>(tamanhoPopulacao);
     }
